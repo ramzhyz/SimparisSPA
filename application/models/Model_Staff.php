@@ -11,6 +11,18 @@
             }
             return $hasil;
         }
+        
+        function tampilterapis(){
+            $query=$this->db->get('tbterapis');
+            if($query->num_rows()>0){
+                foreach ($query->result() as $data) {
+                    $hasil[]=$data;
+                }
+            } else {
+                $hasil="";
+            }
+            return $hasil;
+        }
 
         function simpanlayanan(){
             $data=$_POST;
@@ -42,6 +54,38 @@
 				echo "<script>$('#durasiLayanan').val('".$data->durasiLayanan."');</script>";
 				echo "<script>$('#hargaLayanan').val('".$data->hargaLayanan."');</script>";
 				echo "<script>$('#keterangan').val('".$data->keterangan."');</script>";
+			}
+		}
+
+        function simpanterapis(){
+            $data=$_POST;
+            $idTerapis=$data['idTerapis'];
+            
+            $query=$this->db->get_where('tbterapis', array('idTerapis' => $idTerapis));
+
+			if($query->num_rows()==0){
+                $this->db->insert('tbterapis',$data);
+				$this->session->set_flashdata('pesan','Data sudah disimpan');
+            } else{
+                $kode=array('idTerapis'=>$idTerapis);
+                $this->db->where($kode);
+                $this->db->update('tbterapis',$data);
+				$this->session->set_flashdata('pesan','Data sudah diedit');
+            }
+        }
+
+        function hapusterapis($idTerapis){
+			$this->db->delete('tbterapis', array('idTerapis' => $idTerapis));
+		}
+        
+		function editterapis($idTerapis){
+			$query=$this->db->get_where('tbterapis', array('idTerapis' => $idTerapis));
+			if ($query->num_rows()>0){
+				$data=$query->row();
+				echo "<script>$('#idTerapis').val('".$data->idTerapis."');</script>";
+				echo "<script>$('#namaTerapis').val('".$data->namaTerapis."');</script>";	
+				echo "<script>$('#Spesialisasi').val('".$data->Spesialisasi."');</script>";
+				echo "<script>$('#telpTerapis').val('".$data->telpTerapis."');</script>";
 			}
 		}
 

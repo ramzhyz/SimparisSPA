@@ -33,6 +33,12 @@
             $this->load->view('main/reservation', $data);
         }
 
+        function listreservasi(){
+            $this->model_main->validasi();
+            $data['hasil']=$this->model_main->datareservasi();
+            $this->load->view('main/listreservasi', $data);
+        }
+
         function simpanreservasi(){
             $this->model_main->simpanreservasi();
             redirect('controller_main/reservation');

@@ -35,7 +35,7 @@
           <li><a href="#services">Services</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="<?= base_url('controller_main/reservation')?>">Reservation</a></li>
-          <li><a href="#gallery">ReserveList</a></li>
+          <li><a href="<?= base_url('controller_main/listreservasi')?>">ReserveList</a></li>
           <?php
               if($this->session->userdata('Username')==''){
                   ?>

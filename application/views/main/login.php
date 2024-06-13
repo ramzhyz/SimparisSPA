@@ -78,7 +78,7 @@
         <br>
         <br>
         <div class="row mb-3 text-center">
-            <button type="submit" class="btn btn-success" >Login</button>
+            <button type="submit" name="submit" id="submit" class="btn btn-success" >Login</button>
             <button type="reset" class="btn btn-danger">cancel</button>
         </div>
       </form>

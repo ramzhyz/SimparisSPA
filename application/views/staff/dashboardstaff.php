@@ -44,6 +44,7 @@
                 <div class="navbar-nav">
                     <a class="nav-link hover" href="<?= base_url('controller_staff/home')?>">Home</a>
                     <a class="nav-link hover" href="<?= base_url('controller_staff/layanan')?>">Layanan</a>
+                    <a class="nav-link hover" href="<?= base_url('controller_staff/terapis')?>">Terapis</a>
                     <a class="nav-link hover" href="<?= base_url('controller_staff/reservasi')?>">Reservasi</a>
                 </div>
             </div>

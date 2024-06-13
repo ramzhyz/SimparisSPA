@@ -19,6 +19,12 @@ class Controller_Staff extends CI_Controller {
 		$data['konten']=$this->load->view('staff/menulayanan',$datalayanan,TRUE);
 		$this->load->view('staff/dashboardstaff',$data);
 	}
+	
+	function terapis(){
+		$dataterapis['hasil']=$this->model_staff->tampilterapis();
+		$data['konten']=$this->load->view('staff/menuterapis',$dataterapis,TRUE);
+		$this->load->view('staff/dashboardstaff',$data);
+	}
 
 	function reservasi(){
 		$datareservasi['hasil']=$this->model_staff->datareservasi();
@@ -41,6 +47,23 @@ class Controller_Staff extends CI_Controller {
 		$this->model_staff->editlayanan($idLayanan);
 	}
 	#=================================================
+	
+	#================ CRUD TERAPIS =====================
+	function simpanterapis(){
+		$this->model_staff->simpanterapis();
+		redirect('controller_staff/terapis');
+	}
+
+	function hapusterapis($idTerapis){
+		$this->model_staff->hapusterapis($idTerapis);
+		redirect('controller_staff/terapis');
+	}
+	
+	function editterapis($idTerapis){
+		$this->model_staff->editterapis($idTerapis);
+	}
+	#=================================================
+
 
 	#=================== VERIF PESANAN =====================
 	function validasipesanan($idPesanan){

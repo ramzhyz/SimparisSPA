@@ -79,6 +79,24 @@
             return $hasil;
         }
 
+        function datareservasi(){
+            $idPelanggan=$this->session->userdata('Id');
+            $where=array('idPelanggan' => $idPelanggan);
+            $this->db->select('idPelanggan, idPesanan, namaLayanan, tglPesanan, wktMulai, wktSelesai, hargaLayanan');
+            $this->db->from('tbpesanan');
+            $this->db->join('tblayanan', 'tbpesanan.idLayanan=tblayanan.idLayanan');
+            $this->db->where($where);
+            $query=$this->db->get();
+            if($query->num_rows()>0){
+                foreach($query->result() as $data){
+                    $hasil[]=$data;
+                } 
+            } else{
+                $hasil="";
+            }
+            return $hasil;
+        }
+
         function packagelist(){
             $query=$this->db->get('tblayanan');
             if($query->num_rows()>0){
