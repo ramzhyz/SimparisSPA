@@ -21,8 +21,9 @@ class Controller_Staff extends CI_Controller {
 	}
 	
 	function terapis(){
-		$dataterapis['hasil']=$this->model_staff->tampilterapis();
-		$data['konten']=$this->load->view('staff/menuterapis',$dataterapis,TRUE);
+		$datakonten['layanan']=$this->model_staff->tampillayanan();
+		$datakonten['terapis']=$this->model_staff->tampilterapis();
+		$data['konten']=$this->load->view('staff/menuterapis',$datakonten,TRUE);
 		$this->load->view('staff/dashboardstaff',$data);
 	}
 

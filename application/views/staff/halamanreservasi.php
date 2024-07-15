@@ -32,12 +32,15 @@
 									} else{
 										foreach ($hasil as $data):
 											?>
-												<option value="<?php echo $data->idLayanan; ?>"><?php echo $data->namaLayanan; ?></option>
+												<input type="checkbox" id="idLayanan" name="namaLayanan" value="<?php echo $data->idLayanan; ?>"><?php echo $data->namaLayanan; ?></input>
 											<?php
 										endforeach;
 									}
 								?>
 							</select>
+							<form >
+								<input type="checkbox" id="idLayanan" name="namaLayanan" value="<?php echo $data->idLayanan; ?>"><?php echo $data->namaLayanan; ?></input>
+							</form>
 						</div>
 					</div>
 					<div class="row mb-3">

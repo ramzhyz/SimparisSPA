@@ -60,7 +60,13 @@
         function simpanterapis(){
             $data=$_POST;
             $idTerapis=$data['idTerapis'];
-            
+            $config['upload_path'] = './upload/'; // Folder untuk menyimpan gambar
+            $config['allowed_types'] = 'gif|jpg|png';
+            $this->load->library('upload', $config);
+
+            $upload_data = $this->upload->data();
+            $data['fotoTerapis'] = $upload_data['file_name'];
+
             $query=$this->db->get_where('tbterapis', array('idTerapis' => $idTerapis));
 
 			if($query->num_rows()==0){
@@ -86,18 +92,18 @@
 				echo "<script>$('#namaTerapis').val('".$data->namaTerapis."');</script>";	
 				echo "<script>$('#Spesialisasi').val('".$data->Spesialisasi."');</script>";
 				echo "<script>$('#telpTerapis').val('".$data->telpTerapis."');</script>";
+				echo "<script>$('#fotoTerapis').val('".$data->fotoTerapis."');</script>";
 			}
 		}
 
         function schedule(){
             $currentDate = date('Y-m-d');
-            $where=(array('tglPesanan' => $currentDate, 'status' => 'Aktif'));
-            $this->db->select('idPesanan, namaLayanan, wktMulai, wktSelesai, pTelp, status');
+            $this->db->select('idPesanan, namaLayanan, tglLayanan, wktMulai, wktSelesai, pTelp, status');
             $this->db->from('tbpelanggan');
             $this->db->join('tbpesanan', 'tbpelanggan.idPelanggan=tbpesanan.idPelanggan');
             $this->db->join('tblayanan', 'tbpesanan.idLayanan=tblayanan.idLayanan');
-            $this->db->where($where);
-            $this->db->order_by('wktMulai', 'DESC');
+            
+            $this->db->order_by('tglLayanan', 'ASC');
             $query=$this->db->get();
             if($query->num_rows()>0){
                 foreach($query->result() as $data){

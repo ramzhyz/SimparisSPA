@@ -37,7 +37,7 @@
           <li><a href="<?= base_url('controller_main/reservation')?>">Reservation</a></li>
           <li><a href="<?= base_url('controller_main/listreservasi')?>">ReserveList</a></li>
           <?php
-              if($this->session->userdata('Username')==''){
+              if($this->session->userdata('Id')==''){
                   ?>
                   <li><a href="<?= base_url('controller_main/login')?>">Login</a></li>
                   

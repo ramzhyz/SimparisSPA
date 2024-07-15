@@ -32,13 +32,32 @@
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">Spesialisasi</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="Spesialisasi" name="Spesialisasi" required>
+                            <select class="form-select form-control" name="spesialisasi" id="splesialisasi" required>
+                                <option value="">Pilih Spesialisasi</option>
+                                <?php
+                                    if(empty($layanan)){
+                                        
+                                    } else{
+                                        foreach ($layanan as $data):
+                                            ?>
+                                                <option value="<?php echo $data->namaLayanan; ?>"><?php echo $data->namaLayanan; ?></option><br>
+                                            <?php
+                                        endforeach;
+                                    }
+                                ?>
+                            </select>
 						</div>
 					</div>
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">No. Telepon</label>
 						<div class="col-sm-10">
 							<input type="number" class="form-control" id="telpTerapis" name="telpTerapis" required>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">Foto Terapis</label>
+						<div class="col-sm-10">
+							<input type="file" class="form-control" id="fotoTerapis" name="fotoTerapis" required>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary" >Save</button>
@@ -64,14 +83,14 @@
             </thead>
             <tbody>
                 <?php
-                    if(empty($hasil)){
+                    if(empty($terapis)){
                         ?>
                             <tr>
                                 <td colspan="4" align="center">Data Kosong</td>
                             </tr>
                         <?php
                     } else{
-                        foreach($hasil as $data):
+                        foreach($terapis as $data):
                 ?>
                         <tr>
                             <td><?php echo $data->namaTerapis; ?></td>

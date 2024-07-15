@@ -4,6 +4,7 @@
             parent::__construct();
             $this->load->library('email');
             $this->load->model('model_main');
+            $this->load->model('model_staff');
         }
 
         function home(){
@@ -29,8 +30,15 @@
 
         function reservation(){
             $this->model_main->validasi();
-            $data['hasil']=$this->model_main->dataservice();
-            $this->load->view('main/reservation', $data);
+            $datakonten['layanan']=$this->model_staff->tampillayanan();
+            $datakonten['terapis']=$this->model_staff->tampilterapis();
+            $this->load->view('main/reservation', $datakonten);
+        }
+
+        function get_available_times() {
+            $date = $this->input->get('date');
+            $times = $this->model_main->get_available_times($date);
+            echo json_encode($times);
         }
 
         function listreservasi(){
@@ -41,7 +49,7 @@
 
         function simpanreservasi(){
             $this->model_main->simpanreservasi();
-            redirect('controller_main/reservation');
+            redirect('/controller_main/listreservasi');
         }
 
         function logout(){

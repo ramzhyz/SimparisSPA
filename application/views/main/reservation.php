@@ -21,9 +21,64 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>css/font-icon.css">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>css/animate.min.css">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<style>
+    .image-radio {
+        align-items: left;
+        margin-bottom: 20px;
+    }
+    .image-radio img {
+        max-width: 100px;
+        margin-right: 30px;
+        margin-bottom: 10px;
+    }
+    .image-radio label {
+        cursor: pointer;
+    }
+
+</style>
+    <script>
+        function setDateLimits() {
+            // Mendapatkan elemen input date
+            var dateInput = document.getElementById('tglLayanan');
+
+            // Mendapatkan tanggal hari ini
+            var today = new Date();
+            var todayStr = today.toISOString().split('T')[0];
+
+            // Menghitung tanggal maksimal (5 hari setelah hari ini)
+            var maxDate = new Date();
+            maxDate.setDate(today.getDate() + 5);
+            var maxDateStr = maxDate.toISOString().split('T')[0];
+
+            // Mengatur atribut min dan max
+            dateInput.setAttribute('min', todayStr);
+            dateInput.setAttribute('max', maxDateStr);
+        }
+
+        function loadAvailableTimes() {
+            var date = document.getElementById('tglLayanan').value;
+            if (date) {
+                fetch(`<?= base_url('controller_main/get_available_times') ?>?date=${date}`)
+                    .then(response => response.json())
+                    .then(times => {
+                        var timeSelect = document.getElementById('wktMulai');
+                        timeSelect.innerHTML = '';
+                        var timesAvailable = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+                        timesAvailable.forEach(time => {
+                            if (!times.includes(time)) {
+                                var option = document.createElement('option');
+                                option.value = time;
+                                option.text = time;
+                                timeSelect.appendChild(option);
+                            }
+                        });
+                    });
+            }
+        }
+    </script>
 </head>
 
-<body>
+<body onload="setDateLimits()">
 <section id="reservation" class="section intro">
   <div class="container">
     <div class="col-md-8 col-md-offset-2 text-center">
@@ -53,13 +108,26 @@
 		<div class="row mb-3">
             <label class="col-sm-2 col-form-label">Reservasi Layanan</label>
             <div class="col-sm-10">
-                <select class="form-select form-control" name="idLayanan" id="idLayanan" required>
-                    <option value="">PILIH</option>
+                <!--form>
                     <?php
-                        if(empty($hasil)){
+                        /*if(empty($layanan)){
                             
                         } else{
-                            foreach ($hasil as $data):
+                            foreach ($layanan as $data):
+                                ?>
+                                    <input type="checkbox" id="idLayanan" name="idLayanan" value="<?php echo $data->idLayanan; ?>"><?php echo $data->namaLayanan; ?></input><br>
+                                <?php
+                            endforeach;
+                        }*/
+                    ?>
+                </form-->
+                <select class="form-select form-control" name="idLayanan" id="idLayanan" required>
+                    <option value="">PILIH PACKAGE LAYANAN</option>
+                    <?php
+                        if(empty($layanan)){
+                                
+                        } else{
+                            foreach ($layanan as $data):
                                 ?>
                                     <option value="<?php echo $data->idLayanan; ?>"><?php echo $data->namaLayanan; ?></option>
                                 <?php
@@ -73,7 +141,7 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Tanggal Reservasi</label>
             <div class="col-sm-10">
-                <input type="date" class="form-control" id="tglPesanan" name="tglPesanan" required>
+                <input type="date" class="form-control" id="tglLayanan" name="tglLayanan"  onchange="loadAvailableTimes()" required>
             </div>
         </div>
         <!---->
@@ -81,20 +149,36 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Waktu Reservasi</label>
             <div class="col-sm-10">
-                <select class="form-select form-control" name="wktMulai" id="wktMulai" required>
-                    <option value="">PILIH</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="12:00">12:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                </select>
+                <select class="form-select form-control" name="wktMulai" id="wktMulai" required></select>
             </div>
         </div>
         <br>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Terapis</label>
+            <div class="col-sm-10">
+                <div class="row">
+                <div class="image-radio">
+                    <?php
+                        if(empty($terapis)){
+                            
+                        } else{
+                            foreach ($terapis as $data):
+                                ?>
+                                <div class="col-sm-6 col-md-4">
+                                <label>
+                                    <input type="radio" id="idTerapis" name="idTerapis" value="<?php echo $data->idTerapis; ?>"><br>
+                                        <img src="<?php echo $data->fotoTerapis; ?>" alt="img"><br>
+                                        <label><?php echo $data->namaTerapis; ?></label>
+                                    </input>
+                                </label><br>
+                                </div>
+                                <?php
+                            endforeach;
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
         <br>
         <br>
         <div class="row mb-3 text-center">

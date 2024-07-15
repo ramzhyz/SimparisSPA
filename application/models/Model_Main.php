@@ -9,7 +9,7 @@
     Class Model_Main extends CI_Model{
 
         function validasi(){
-            if($this->session->userdata('Username')==''){
+            if($this->session->userdata('Id')==''){
                 echo "<script>
                 alert('Anda tidak memiliki hak akses! Harap login terlebih dahulu');
                 location.href='login';
@@ -18,25 +18,28 @@
         }
 
         function proseslogin(){
+            session_start();
             $data=$_POST;
             $email=$data['email'];
             $password=$data['password'];
-            $sql="select * from tblogin where email='".$email."' and password='".$password."'";
-			$query=$this->db->query($sql);
-			if ($query->num_rows()>0){
-                if ($query->row('level')==2){
-                    $data=$query->row();
-                    $Username=$data->email;
+            $sql1="select * from tblogin where email='".$email."' and password='".$password."'";
+            $sql2="select * from tbpelanggan where pEmail='".$email."' and pPassword='".$password."'";
+			$query1=$this->db->query($sql1);
+            $query2=$this->db->query($sql2);
+			if ($query1->num_rows()>0){
+                if ($query1->row('level')==2){
+                    $data=$query2->row();
+                    $id=$data->idPelanggan;
     
-                    $session=array('Username'=>$Username);
+                    $session=array('Id'=>$id);
                     $this->session->set_userdata($session);
                     
                     redirect('');
-                } elseif ($query->row('level')==1) {
-                    $data=$query->row();
+                } elseif ($query1->row('level')==1) {
+                    $data=$query2->row();
                     $Username=$data->email;
 
-                    $session=array('Username'=>$Username);
+                    $session=array('Id'=>$id);
                     $this->session->set_userdata($session);
 
                     redirect('../controller_staff/home');
@@ -107,6 +110,14 @@
                 $hasil="";
             }
             return $hasil;
+        }
+
+        function get_available_times($date) {
+            $this->db->select('wktMulai');
+            $this->db->from('tbpesanan');
+            $this->db->where('tglLayanan', $date);
+            $query = $this->db->get();
+            return $query->result_array();
         }
 
         function simpanreservasi(){
