@@ -102,7 +102,7 @@
             $this->db->from('tbpelanggan');
             $this->db->join('tbpesanan', 'tbpelanggan.idPelanggan=tbpesanan.idPelanggan');
             $this->db->join('tblayanan', 'tbpesanan.idLayanan=tblayanan.idLayanan');
-            
+            $this->db->where('tglLayanan >=', $currentDate);
             $this->db->order_by('tglLayanan', 'ASC');
             $query=$this->db->get();
             if($query->num_rows()>0){
